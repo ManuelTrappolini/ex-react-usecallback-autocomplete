@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import './App.css'
 
@@ -8,7 +8,17 @@ function App() {
   const [search, setSearch] = useState('')
 
   const [products, setProducts] = useState([])
-  console.log(products);
+  //console.log(products);
+
+  const debounce = (callback, delay) => {
+    let timeout;
+    return (value) => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        callback(value)
+      }, delay)
+    }
+  }
 
 
   const handleSearchChange = (e) => {
@@ -24,6 +34,8 @@ function App() {
       const response = await fetch(`https://boolean-spec-frontend.vercel.app/freetestapi/products?search=${search}`)
       const data = await response.json()
       setProducts(data)
+      console.log('Typing...');
+
 
 
     } catch (err) {
@@ -34,9 +46,13 @@ function App() {
   }
 
 
+  const debouncedProducts = useCallback(
+    debounce(fetchProducts, 500)
+    , [])
+
   useEffect(() => {
 
-    fetchProducts(search)
+    debouncedProducts(search)
 
   }, [search])
 
