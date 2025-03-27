@@ -1,0 +1,20 @@
+* {
+  box-sizing: border-box;
+}
+
+.dropdown {
+  background-color: lightgray;
+  overflow: auto;
+  font-size: .9rem;
+  max-height: 20vh;
+  margin-top: 1rem;
+}
+
+p {
+  border: 1px solid black;
+}
+
+.dropdown>p {
+  padding: 1rem;
+  margin: 0;
+}
